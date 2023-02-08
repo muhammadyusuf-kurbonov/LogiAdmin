@@ -1,6 +1,7 @@
 package uz.qmgroup.logiadmin.features.shipments.datasource
 
 import androidx.annotation.Keep
+import com.google.firebase.Timestamp
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 
@@ -17,6 +18,8 @@ data class FirebaseShipmentEntity(
     val destinationPlace: String = "",
     val price: Double = -1.0,
     val author: String = "",
+    val createdAt: Timestamp = Timestamp.now(),
+    val updatedAt: Timestamp = Timestamp.now(),
 )
 
 fun FirebaseShipmentEntity.toDomainModel(): Shipment {
@@ -32,7 +35,9 @@ fun FirebaseShipmentEntity.toDomainModel(): Shipment {
         pickoffPlace = pickoffPlace,
         destinationPlace = destinationPlace,
         price = price,
-        author = author
+        author = author,
+        createdAt = createdAt.toDate(),
+        updatedAt = updatedAt.toDate()
     )
 }
 
@@ -48,6 +53,8 @@ fun Shipment.toFirebaseEntity(): FirebaseShipmentEntity {
         pickoffPlace = pickoffPlace,
         destinationPlace = destinationPlace,
         price = price,
-        author = author
+        author = author,
+        createdAt = Timestamp(createdAt),
+        updatedAt = Timestamp(updatedAt)
     )
 }

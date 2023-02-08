@@ -1,5 +1,7 @@
 package uz.qmgroup.logiadmin.features.shipments.models
 
+import java.util.Date
+
 data class Shipment(
     val orderId: Long,
     val note: String,
@@ -13,4 +15,6 @@ data class Shipment(
     val price: Double,
     val author: String,
     val databaseId: String? = null,
+    val createdAt: Date = Date(),
+    val updatedAt: Date = Date(),
 )

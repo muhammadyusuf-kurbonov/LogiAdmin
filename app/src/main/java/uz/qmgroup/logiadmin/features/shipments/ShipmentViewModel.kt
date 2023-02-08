@@ -27,7 +27,9 @@ class ShipmentViewModel(private val dataSource: ShipmentDataSource) : ViewModel(
                 if (shipments.isEmpty())
                     ShipmentScreenState.NoData
                 else
-                    ShipmentScreenState.DataFetched(shipments)
+                    ShipmentScreenState.DataFetched(shipments.sortedBy {
+                        it.status
+                    })
             })
         }
     }

@@ -1,5 +1,7 @@
 package uz.qmgroup.logiadmin.features.shipments.datasource
 
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.CancellationException
@@ -37,12 +39,13 @@ class FirebaseShipmentDataSource(
 
     override suspend fun addNewShipment(shipment: Shipment) {
         val entity = shipment.toFirebaseEntity()
-        val docReference = if (entity.id.isNotEmpty())
-            database.collection(COLLECTION_NAME).document(entity.id)
-        else
-            database.collection(COLLECTION_NAME).document()
 
-        docReference.set(entity.copy(id = docReference.id)).await()
+        val orderId =
+            database.collection(COLLECTION_NAME).count().get(AggregateSource.SERVER).await().count
+
+        val docReference = database.collection(COLLECTION_NAME).document()
+
+        docReference.set(entity.copy(id = docReference.id, orderId = orderId)).await()
     }
 
     override suspend fun cancelShipment(shipment: Shipment) {
@@ -51,6 +54,9 @@ class FirebaseShipmentDataSource(
 
         val entity = shipment.toFirebaseEntity()
         database.collection(COLLECTION_NAME).document(entity.id)
-            .set(entity.copy(status = ShipmentStatus.CANCELLED)).await()
+            .update(mapOf(
+                "status" to ShipmentStatus.CANCELLED,
+                "updatedAt" to Timestamp.now()
+            )).await()
     }
 }
