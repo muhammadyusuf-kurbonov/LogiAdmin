@@ -1,6 +1,7 @@
 package uz.qmgroup.logiadmin.features.shipments.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,7 +62,7 @@ fun ShipmentComponent(
     completeShipment: () -> Unit,
     requestDriverSelect: () -> Unit,
 ) {
-    Card(modifier = modifier.width(IntrinsicSize.Min), shape = RoundedCornerShape(16.dp)) {
+    Card(modifier = modifier.animateContentSize().width(IntrinsicSize.Min), shape = RoundedCornerShape(16.dp)) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)

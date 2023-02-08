@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.shipments
+package uz.qmgroup.logiadmin.features.shipments.new_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -19,8 +19,8 @@ import org.koin.androidx.compose.koinViewModel
 import uz.qmgroup.logiadmin.components.EmptyScreenContent
 import uz.qmgroup.logiadmin.components.LoadingScreenContent
 import uz.qmgroup.logiadmin.features.app.LocalSearchQueryProvider
-import uz.qmgroup.logiadmin.features.shipments.components.NewOrderScreen
 import uz.qmgroup.logiadmin.features.shipments.components.ShipmentComponent
+import uz.qmgroup.logiadmin.features.shipments.new_edit.NewOrderScreen
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -59,7 +59,9 @@ fun ShipmentsScreen(
                             modifier = Modifier.fillMaxWidth(),
                             shipment = it,
                             isInProgress = false,
-                            cancelShipment = {},
+                            cancelShipment = {
+                                viewModel.cancel(it)
+                            },
                             requestDriverSelect = {},
                             startShipment = {},
                             completeShipment = {}

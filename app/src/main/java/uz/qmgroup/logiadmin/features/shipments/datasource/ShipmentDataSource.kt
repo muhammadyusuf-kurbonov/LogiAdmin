@@ -7,4 +7,6 @@ interface ShipmentDataSource {
     fun getShipments(query: String): Flow<List<Shipment>>
 
     suspend fun addNewShipment(shipment: Shipment)
+
+    suspend fun cancelShipment(shipment: Shipment)
 }

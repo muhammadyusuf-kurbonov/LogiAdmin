@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.shipments.components
+package uz.qmgroup.logiadmin.features.shipments.new_edit
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,8 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
-import uz.qmgroup.logiadmin.features.shipments.ShipmentAddEditViewModel
-import uz.qmgroup.logiadmin.features.shipments.ShipmentEditScreenState
+import uz.qmgroup.logiadmin.features.shipments.components.ShipmentForm
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 

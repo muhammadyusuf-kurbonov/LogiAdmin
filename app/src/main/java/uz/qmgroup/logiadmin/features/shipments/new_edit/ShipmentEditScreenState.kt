@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.shipments
+package uz.qmgroup.logiadmin.features.shipments.new_edit
 
 import uz.qmgroup.logiadmin.features.shipments.models.Transport
 
