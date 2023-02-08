@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">LogiAdmin</string>
+    <string name="search_a_shipment">Search a shipment</string>
+    <string name="Shipments">Shipments</string>
+    <string name="Transports">Transports</string>
+    <string name="Search_transport">Search transport</string>
+    <string name="Loading">Loading…</string>
+    <string name="No_data_found">No data found</string>
 </resources>
