@@ -16,6 +16,7 @@ import org.koin.core.context.startKoin
 import uz.qmgroup.logiadmin.features.app.AppScreen
 import uz.qmgroup.logiadmin.features.app.di.appDIModule
 import uz.qmgroup.logiadmin.features.shipments.di.shipmentDIModule
+import uz.qmgroup.logiadmin.features.transports.di.transportsDIModule
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 
 class MainActivity : ComponentActivity() {
@@ -32,7 +33,7 @@ class MainActivity : ComponentActivity() {
         startKoin {
             androidContext(applicationContext)
 
-            modules(shipmentDIModule, appDIModule)
+            modules(shipmentDIModule, appDIModule, transportsDIModule)
         }
 
         setContent {
