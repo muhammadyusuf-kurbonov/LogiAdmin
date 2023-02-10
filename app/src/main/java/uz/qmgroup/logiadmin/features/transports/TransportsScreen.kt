@@ -88,7 +88,11 @@ fun TransportsScreen(
                             IconButton(onClick = { openCreateForm = false }) {
                                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
                             }
-                        })
+                        },
+                        actions = {
+                            portals.titleBarTrailingProvider?.invoke()
+                        }
+                    )
                 } else {
                     TopAppBar(title = {
                         TextField(

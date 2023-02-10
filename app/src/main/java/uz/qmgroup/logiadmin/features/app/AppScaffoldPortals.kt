@@ -11,6 +11,8 @@ class AppScaffoldPortals {
     var fabPortal by mutableStateOf<(@Composable () -> Unit)?>(null)
 
     var titleBarPortal by mutableStateOf<(@Composable () -> Unit)?>(null)
+
+    var titleBarTrailingProvider by mutableStateOf<(@Composable () -> Unit)?>(null)
 }
 
 val LocalAppPortalsProvider = compositionLocalOf<AppScaffoldPortals> { throw NotImplementedError() }
