@@ -1,5 +1,6 @@
 package uz.qmgroup.logiadmin.features.shipments.models
 
+import uz.qmgroup.logiadmin.features.transports.models.Transport
 import java.util.Date
 
 data class Shipment(

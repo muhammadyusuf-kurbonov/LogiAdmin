@@ -1,6 +1,6 @@
 package uz.qmgroup.logiadmin.features.shipments.new_edit
 
-import uz.qmgroup.logiadmin.features.shipments.models.Transport
+import uz.qmgroup.logiadmin.features.transports.models.Transport
 
 sealed class ShipmentEditScreenState {
     object Default: ShipmentEditScreenState()

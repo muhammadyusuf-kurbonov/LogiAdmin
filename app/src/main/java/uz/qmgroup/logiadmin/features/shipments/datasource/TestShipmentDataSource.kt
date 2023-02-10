@@ -4,8 +4,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
-import uz.qmgroup.logiadmin.features.shipments.models.Transport
-import uz.qmgroup.logiadmin.features.shipments.models.TransportType
+import uz.qmgroup.logiadmin.features.transports.models.Transport
+import uz.qmgroup.logiadmin.features.transports.models.TransportType
 
 class TestShipmentDataSource: ShipmentDataSource {
     override fun getShipments(query: String): Flow<List<Shipment>> = flow {

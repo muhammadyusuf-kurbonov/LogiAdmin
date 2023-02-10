@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
 import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.features.shipments.ShipmentsScreen
+import uz.qmgroup.logiadmin.features.transports.TransportsScreen
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -64,7 +65,7 @@ fun AppScreen(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(key1 = newScreenRequired ){
+    LaunchedEffect(key1 = newScreenRequired) {
         Log.d("LogiAdmin", "AppScreen: newScreenRequired changed to $newScreenRequired")
     }
 
@@ -102,7 +103,7 @@ fun AppScreen(
                                         AppScreenState.Shipments -> stringResource(R.string.search_a_shipment)
                                         AppScreenState.Transports -> stringResource(R.string.Search_transport)
                                     }
-                                ) {placeholderText ->
+                                ) { placeholderText ->
                                     Text(text = placeholderText)
                                 }
                             },
@@ -204,7 +205,13 @@ fun AppScreen(
         ) {
             CompositionLocalProvider(LocalSearchQueryProvider provides searchQuery) {
                 when (it) {
-                    AppScreenState.Transports -> {}
+                    AppScreenState.Transports -> {
+                        TransportsScreen(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(padding),
+                        )
+                    }
 
                     AppScreenState.Shipments -> {
                         ShipmentsScreen(

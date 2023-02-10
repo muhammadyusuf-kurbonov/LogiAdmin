@@ -38,8 +38,8 @@ import androidx.compose.ui.unit.dp
 import uz.qmgroup.logiadmin.components.ConfirmButtonWrapper
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
-import uz.qmgroup.logiadmin.features.shipments.models.Transport
-import uz.qmgroup.logiadmin.features.shipments.models.TransportType
+import uz.qmgroup.logiadmin.features.transports.models.Transport
+import uz.qmgroup.logiadmin.features.transports.models.TransportType
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 import java.text.NumberFormat
 
