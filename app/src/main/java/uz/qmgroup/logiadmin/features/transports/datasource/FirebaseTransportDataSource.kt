@@ -1,5 +1,6 @@
 package uz.qmgroup.logiadmin.features.transports.datasource
 
+import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObjects
 import kotlinx.coroutines.CancellationException
@@ -7,6 +8,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import uz.qmgroup.logiadmin.features.transports.models.Transport
 
 class FirebaseTransportDataSource(private val database: FirebaseFirestore): TransportsDataSource {
@@ -29,6 +31,18 @@ class FirebaseTransportDataSource(private val database: FirebaseFirestore): Tran
             }
 
         awaitClose { registration.remove() }
+    }
+
+    override suspend fun saveTransport(transport: Transport) {
+        val entity = transport.toFirebaseEntity()
+
+        val transportId =
+            database.collection(COLLECTION_NAME).count().get(
+                AggregateSource.SERVER).await().count
+
+        val docReference = database.collection(COLLECTION_NAME).document()
+
+        docReference.set(entity.copy(id = docReference.id, transportId = transportId)).await()
     }
 
 }
