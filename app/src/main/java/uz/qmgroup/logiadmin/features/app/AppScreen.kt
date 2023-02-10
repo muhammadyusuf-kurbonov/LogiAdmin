@@ -58,6 +58,8 @@ fun AppScreen(
     viewModel: AppViewModel = koinViewModel(),
 ) {
     val currentState by viewModel.state.collectAsState()
+    val portals = rememberAppPortals()
+
     var searchQuery by remember {
         mutableStateOf("")
     }
@@ -72,68 +74,7 @@ fun AppScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            AnimatedContent(newScreenRequired) {
-                if (it) {
-                    val title = when (currentState) {
-                        AppScreenState.Shipments -> "New shipment"
-                        AppScreenState.Transports -> "New transport"
-                    }
-                    TopAppBar(
-                        title = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(text = title)
-                            }
-                        },
-                        navigationIcon = {
-                            IconButton(onClick = { newScreenRequired = false }) {
-                                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
-                            }
-                        })
-                } else {
-                    TopAppBar(title = {
-                        TextField(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(end = 16.dp),
-                            value = searchQuery,
-                            onValueChange = { newQuery -> searchQuery = newQuery },
-                            placeholder = {
-                                Crossfade(
-                                    targetState = when (currentState) {
-                                        AppScreenState.Shipments -> stringResource(R.string.search_a_shipment)
-                                        AppScreenState.Transports -> stringResource(R.string.Search_transport)
-                                    }
-                                ) { placeholderText ->
-                                    Text(text = placeholderText)
-                                }
-                            },
-                            shape = RoundedCornerShape(99.dp),
-                            colors = TextFieldDefaults.textFieldColors(
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                disabledIndicatorColor = Color.Transparent,
-                                errorIndicatorColor = Color.Transparent,
-                            ),
-                            textStyle = MaterialTheme.typography.bodyLarge,
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = stringResource(R.string.search_a_shipment),
-                                    modifier = Modifier.padding(16.dp)
-                                )
-                            },
-                            trailingIcon = {
-                                IconButton(onClick = { }) {
-                                    Icon(
-                                        imageVector = Icons.Default.MoreVert,
-                                        contentDescription = "More"
-                                    )
-                                }
-                            }
-                        )
-                    })
-                }
-            }
+            portals.titleBarPortal?.invoke()
         },
         bottomBar = {
             NavigationBar {
@@ -166,20 +107,7 @@ fun AppScreen(
             }
         },
         floatingActionButton = {
-            val label = when (currentState) {
-                AppScreenState.Shipments -> "New shipment"
-                AppScreenState.Transports -> "New transport"
-            }
-
-            ExtendedFloatingActionButton(
-                onClick = { newScreenRequired = true },
-            ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = label)
-
-                Text(
-                    text = label
-                )
-            }
+            portals.fabPortal?.invoke()
         }
     ) { padding ->
         AnimatedContent(
@@ -203,7 +131,10 @@ fun AppScreen(
                 )
             }
         ) {
-            CompositionLocalProvider(LocalSearchQueryProvider provides searchQuery) {
+            CompositionLocalProvider(
+                LocalSearchQueryProvider provides searchQuery,
+                LocalAppPortalsProvider provides portals
+            ) {
                 when (it) {
                     AppScreenState.Transports -> {
                         TransportsScreen(
@@ -218,8 +149,6 @@ fun AppScreen(
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(padding),
-                            newScreenRequested = newScreenRequired,
-                            newScreenRequestClosed = { newScreenRequired = false }
                         )
                     }
                 }

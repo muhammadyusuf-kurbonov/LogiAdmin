@@ -27,7 +27,7 @@ import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 
 @Composable
-fun NewOrderScreen(
+fun NewShipmentScreen(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     viewModel: ShipmentAddEditViewModel = koinViewModel()
