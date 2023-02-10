@@ -1,5 +1,6 @@
 package uz.qmgroup.logiadmin.features.transports.new_edit
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
@@ -18,12 +19,13 @@ class TransportEditViewModel(val dataSource: TransportsDataSource): ViewModel() 
         _state.update { TransportEditScreenState.Default }
     }
 
-    fun save(shipment: Transport) {
+    fun save(transport: Transport) {
         viewModelScope.launch {
             _state.update { TransportEditScreenState.SavePending }
             try {
 //                dataSource.addNewShipment(shipment)
                 delay(3000)
+                Log.d("LogiAdmin", "save: Tranport $transport")
 
                 _state.update { TransportEditScreenState.SaveCompleted }
             } catch (e: Exception) {

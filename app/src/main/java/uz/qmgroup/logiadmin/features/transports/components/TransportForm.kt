@@ -1,5 +1,6 @@
 package uz.qmgroup.logiadmin.features.transports.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,8 +28,14 @@ fun TransportForm(
     val (driverPhone, onDriverPhoneChange) = remember { mutableStateOf("") }
     val (transportNumber, onTransportNumberChange) = remember { mutableStateOf("") }
 
-    val transport by remember {
+    val transport by remember(
+        driverFullName,
+        driverPhone,
+        transportNumber
+    ) {
         derivedStateOf {
+            Log.d("LogiAdmin", "form: Tranport driverName $driverFullName")
+
             Transport(
                 transportId = 0,
                 driverName = driverFullName,

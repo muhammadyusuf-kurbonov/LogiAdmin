@@ -1,5 +1,6 @@
 package uz.qmgroup.logiadmin.features.transports.new_edit
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -51,13 +52,11 @@ fun NewTransportScreen(
         )
     }
 
-    LaunchedEffect(key1 = portals) {
-        portals.titleBarTrailingProvider = {
-            TextButton(onClick = {
-                viewModel.save(transport)
-            }) {
-                Text("Сохранить")
-            }
+    portals.titleBarTrailingProvider = {
+        TextButton(onClick = {
+            viewModel.save(transport)
+        }) {
+            Text("Сохранить")
         }
     }
 
@@ -70,14 +69,18 @@ fun NewTransportScreen(
             ) {
                 Divider()
                 if (currentState == TransportEditScreenState.SavePending)
-                    LinearProgressIndicator()
+                    LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
 
                 TransportForm(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
                         .padding(top = 8.dp),
-                    onTransportChange = { transport = it }
+                    onTransportChange = {
+                        transport = it
+
+                        Log.d("LogiAdmin", "edit: Tranport $transport")
+                    }
                 )
             }
         }

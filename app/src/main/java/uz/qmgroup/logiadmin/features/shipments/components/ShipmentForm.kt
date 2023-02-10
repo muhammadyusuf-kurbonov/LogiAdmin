@@ -8,26 +8,57 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import uz.qmgroup.logiadmin.components.NumberTextFieldWrapper
+import uz.qmgroup.logiadmin.features.shipments.models.Shipment
+import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShipmentForm(
     modifier: Modifier = Modifier,
-    pickupAddress: String,
-    onPickupAddressChange: (String) -> Unit,
-    destinationAddress: String,
-    onDestinationAddressChange: (String) -> Unit,
-    orderType: String,
-    onOrderTypeChanged: (String) -> Unit,
-    company: String,
-    onCompanyChanged: (String) -> Unit,
-    price: Double,
-    onPriceChanged: (Double) -> Unit
+    onShipmentChange: (Shipment) -> Unit
 ) {
+    val (pickupAddress, onPickupAddressChange) = remember { mutableStateOf("") }
+    val (destinationAddress, onDestinationAddressChange) = remember { mutableStateOf("") }
+    val (company, onCompanyChange) = remember { mutableStateOf("") }
+    val (price, onPriceChange) = remember { mutableStateOf(0.0) }
+
+    val shipment by remember(
+        pickupAddress,
+        destinationAddress,
+        price,
+        company
+    ) {
+        derivedStateOf {
+            Shipment(
+                orderId = 0,
+                orderPrefix = "M-",
+                note = "",
+                transportId = 0,
+                status = ShipmentStatus.CREATED,
+                pickoffPlace = pickupAddress,
+                destinationPlace = destinationAddress,
+                price = price,
+                author = "Diyorbek",
+                transport = null,
+                company = company,
+                databaseId = ""
+            )
+        }
+    }
+
+    LaunchedEffect(key1 = shipment) {
+        onShipmentChange(shipment)
+    }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -54,7 +85,7 @@ fun ShipmentForm(
 
         OutlinedTextField(
             value = company,
-            onValueChange = onCompanyChanged,
+            onValueChange = onCompanyChange,
             modifier = Modifier.fillMaxWidth(),
             label = {
                 Text("Company")
@@ -65,7 +96,7 @@ fun ShipmentForm(
         NumberTextFieldWrapper(
             value = price,
             onValueChanged = {
-                onPriceChanged(it.toDouble())
+                onPriceChange(it.toDouble())
             }
         ) {
             OutlinedTextField(
