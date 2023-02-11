@@ -9,12 +9,16 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
+import uz.qmgroup.logiadmin.features.transports.datasource.TransportsDataSource
+import uz.qmgroup.logiadmin.features.transports.models.Transport
 
 class FirebaseShipmentDataSource(
-    private val database: FirebaseFirestore
+    private val database: FirebaseFirestore,
+    private val transportsDataSource: TransportsDataSource
 ) : ShipmentDataSource {
     companion object {
         const val COLLECTION_NAME = "shipments"
@@ -26,7 +30,21 @@ class FirebaseShipmentDataSource(
                 if (snapshot != null) {
                     val values = snapshot.toObjects<FirebaseShipmentEntity>()
 
-                    trySend(values.map { it.toDomainModel() })
+                    val transportIds = values.mapNotNull { it.transportId }.distinct()
+                    val shipments = values.map { it.toDomainModel() }
+
+                    if (transportIds.isNotEmpty()) {
+                        val transports =
+                            runBlocking { transportsDataSource.getByIds(transportIds) }
+
+                        trySend(shipments.map {
+                            it.copy(
+                                transport = transports[it.transportId]
+                            )
+                        })
+                    } else {
+                        trySend(shipments)
+                    }
                 }
 
                 if (error != null) {
@@ -41,7 +59,8 @@ class FirebaseShipmentDataSource(
         val entity = shipment.toFirebaseEntity()
 
         val orderId =
-            database.collection(COLLECTION_NAME).count().get(AggregateSource.SERVER).await().count
+            database.collection(COLLECTION_NAME).count().get(AggregateSource.SERVER)
+                .await().count + 1
 
         val docReference = database.collection(COLLECTION_NAME).document()
 
@@ -54,9 +73,29 @@ class FirebaseShipmentDataSource(
 
         val entity = shipment.toFirebaseEntity()
         database.collection(COLLECTION_NAME).document(entity.id)
-            .update(mapOf(
-                "status" to ShipmentStatus.CANCELLED,
-                "updatedAt" to Timestamp.now()
-            )).await()
+            .update(
+                mapOf(
+                    "status" to ShipmentStatus.CANCELLED,
+                    "updatedAt" to Timestamp.now()
+                )
+            ).await()
+    }
+
+    override suspend fun assignTransport(shipment: Shipment, transport: Transport) {
+        if (shipment.databaseId.isNullOrEmpty())
+            throw IllegalArgumentException("Not saved Shipment can not be updated")
+
+        if (transport.databaseId.isNullOrEmpty())
+            throw IllegalArgumentException("Not saved Transport can not be assigned")
+
+        val entity = shipment.toFirebaseEntity()
+        database.collection(COLLECTION_NAME).document(entity.id)
+            .update(
+                mapOf(
+                    "status" to ShipmentStatus.ASSIGNED,
+                    "updatedAt" to Timestamp.now(),
+                    "transportId" to transport.transportId,
+                )
+            ).await()
     }
 }

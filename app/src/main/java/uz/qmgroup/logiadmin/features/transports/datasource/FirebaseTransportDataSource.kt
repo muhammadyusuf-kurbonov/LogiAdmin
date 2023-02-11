@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import uz.qmgroup.logiadmin.features.transports.models.Transport
 
-class FirebaseTransportDataSource(private val database: FirebaseFirestore): TransportsDataSource {
+class FirebaseTransportDataSource(private val database: FirebaseFirestore) : TransportsDataSource {
     companion object {
         const val COLLECTION_NAME = "transports"
     }
@@ -38,11 +38,23 @@ class FirebaseTransportDataSource(private val database: FirebaseFirestore): Tran
 
         val transportId =
             database.collection(COLLECTION_NAME).count().get(
-                AggregateSource.SERVER).await().count
+                AggregateSource.SERVER
+            ).await().count + 1
 
         val docReference = database.collection(COLLECTION_NAME).document()
 
         docReference.set(entity.copy(id = docReference.id, transportId = transportId)).await()
+    }
+
+    override suspend fun getByIds(ids: List<Long>): Map<Long, Transport?> {
+        val transports =
+            database.collection(COLLECTION_NAME).whereIn("transportId", ids).get().await()
+                .toObjects<FirebaseTransportEntity>()
+        val hashMap = mutableMapOf<Long, Transport>()
+        transports.forEach {
+            hashMap[it.transportId] = it.toDomainModel()
+        }
+        return hashMap.toMap()
     }
 
 }

@@ -45,7 +45,9 @@ import uz.qmgroup.logiadmin.components.EmptyScreenContent
 import uz.qmgroup.logiadmin.components.LoadingScreenContent
 import uz.qmgroup.logiadmin.features.app.LocalAppPortalsProvider
 import uz.qmgroup.logiadmin.features.shipments.components.ShipmentComponent
+import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.new_edit.NewShipmentScreen
+import uz.qmgroup.logiadmin.features.transports.assign_driver.SelectDriverDialog
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
@@ -62,6 +64,9 @@ fun ShipmentsScreen(
 
     var openCreateForm by remember {
         mutableStateOf(false)
+    }
+    var openAssignForm by remember {
+        mutableStateOf<Shipment?>(null)
     }
 
     LaunchedEffect(key1 = Unit) {
@@ -143,6 +148,7 @@ fun ShipmentsScreen(
 
             return@AnimatedContent
         }
+
         when (currentState) {
             is ShipmentScreenState.DataFetched -> {
                 LazyColumn(
@@ -158,7 +164,9 @@ fun ShipmentsScreen(
                             cancelShipment = {
                                 viewModel.cancel(it)
                             },
-                            requestDriverSelect = {},
+                            requestDriverSelect = {
+                                openAssignForm = it
+                            },
                             startShipment = {},
                             completeShipment = {}
                         )
@@ -173,6 +181,17 @@ fun ShipmentsScreen(
             ShipmentScreenState.NoData -> {
                 EmptyScreenContent(modifier = modifier.fillMaxSize())
             }
+        }
+
+        if (openAssignForm != null) {
+            SelectDriverDialog(
+                onDismissRequest = {
+                    openAssignForm = null
+                },
+                selectDriver = {
+                    viewModel.assignDriver(openAssignForm!!, it)
+                }
+            )
         }
     }
 }

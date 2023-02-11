@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import uz.qmgroup.logiadmin.features.shipments.datasource.ShipmentDataSource
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
+import uz.qmgroup.logiadmin.features.transports.models.Transport
 
 class ShipmentViewModel(private val dataSource: ShipmentDataSource) : ViewModel() {
     private val _state = MutableStateFlow<ShipmentScreenState>(ShipmentScreenState.Loading)
@@ -36,5 +37,11 @@ class ShipmentViewModel(private val dataSource: ShipmentDataSource) : ViewModel(
 
     fun cancel(shipment: Shipment) {
         viewModelScope.launch { dataSource.cancelShipment(shipment) }
+    }
+
+    fun assignDriver(shipment: Shipment, transport: Transport) {
+        viewModelScope.launch {
+            dataSource.assignTransport(shipment, transport)
+        }
     }
 }

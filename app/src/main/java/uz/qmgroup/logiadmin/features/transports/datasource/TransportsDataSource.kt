@@ -7,4 +7,6 @@ interface TransportsDataSource {
     fun getTransports(query: String): Flow<List<Transport>>
 
     suspend fun saveTransport(transport: Transport)
+
+    suspend fun getByIds(ids: List<Long>): Map<Long, Transport?>
 }

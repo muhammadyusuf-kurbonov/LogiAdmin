@@ -25,4 +25,8 @@ class TestTransportsDataSource: TransportsDataSource {
     override suspend fun saveTransport(transport: Transport) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getByIds(ids: List<Long>): Map<Long, Transport?> {
+        TODO("Not yet implemented")
+    }
 }
