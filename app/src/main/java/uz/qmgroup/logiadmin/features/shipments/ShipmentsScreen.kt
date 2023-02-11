@@ -1,5 +1,7 @@
 package uz.qmgroup.logiadmin.features.shipments
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -36,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,11 +60,11 @@ fun ShipmentsScreen(
     viewModel: ShipmentViewModel = koinViewModel(),
 ) {
     val portals = LocalAppPortalsProvider.current
+    val context = LocalContext.current
 
     var searchQuery by remember {
         mutableStateOf("")
     }
-
     var openCreateForm by remember {
         mutableStateOf(false)
     }
@@ -168,7 +171,12 @@ fun ShipmentsScreen(
                                 openAssignForm = it
                             },
                             startShipment = {},
-                            completeShipment = {}
+                            completeShipment = {},
+                            callTheDriver = {phone ->
+                                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
+
+                                context.startActivity(intent)
+                            }
                         )
                     }
                 }

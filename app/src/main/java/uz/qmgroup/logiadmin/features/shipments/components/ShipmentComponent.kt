@@ -61,8 +61,11 @@ fun ShipmentComponent(
     startShipment: () -> Unit,
     completeShipment: () -> Unit,
     requestDriverSelect: () -> Unit,
+    callTheDriver: (phone: String) -> Unit = {},
 ) {
-    Card(modifier = modifier.animateContentSize().width(IntrinsicSize.Min), shape = RoundedCornerShape(16.dp)) {
+    Card(modifier = modifier
+        .animateContentSize()
+        .width(IntrinsicSize.Min), shape = RoundedCornerShape(16.dp)) {
         Column(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -147,12 +150,12 @@ fun ShipmentComponent(
                             ) {
                                 Column {
                                     Text(
-                                        "Номер водителя",
+                                        "Имя водителя",
                                         style = MaterialTheme.typography.labelMedium
                                     )
 
                                     Text(
-                                        shipment.transport?.driverPhone ?: "Loading ...",
+                                        shipment.transport?.driverName ?: "Loading ...",
                                         style = MaterialTheme.typography.bodyMedium,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -210,12 +213,16 @@ fun ShipmentComponent(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            OutlinedButton(onClick = { /*TODO*/ }) {
-                                Icon(
-                                    imageVector = Icons.Default.Phone,
-                                    contentDescription = "",
-                                    tint = LocalContentColor.current
-                                )
+                            if (shipment.transport != null) {
+                                OutlinedButton(onClick = { callTheDriver(shipment.transport.driverPhone) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Phone,
+                                        contentDescription = "",
+                                        tint = LocalContentColor.current
+                                    )
+                                }
+                            } else {
+                                Box(modifier = Modifier)
                             }
 
                             Row {
@@ -241,12 +248,16 @@ fun ShipmentComponent(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            OutlinedButton(onClick = { /*TODO*/ }) {
-                                Icon(
-                                    imageVector = Icons.Default.Phone,
-                                    contentDescription = "",
-                                    tint = LocalContentColor.current
-                                )
+                            if (shipment.transport != null) {
+                                OutlinedButton(onClick = { callTheDriver(shipment.transport.driverPhone) }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Phone,
+                                        contentDescription = "",
+                                        tint = LocalContentColor.current
+                                    )
+                                }
+                            } else {
+                                Box(modifier = Modifier)
                             }
 
                             Row {
