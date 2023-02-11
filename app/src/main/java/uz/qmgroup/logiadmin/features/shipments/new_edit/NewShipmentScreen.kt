@@ -18,8 +18,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
+import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.features.app.LocalAppPortalsProvider
 import uz.qmgroup.logiadmin.features.shipments.components.ShipmentForm
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
@@ -60,7 +62,7 @@ fun NewShipmentScreen(
         TextButton(onClick = {
             viewModel.save(shipment)
         }) {
-            Text("Сохранить")
+            Text(stringResource(R.string.Save))
         }
     }
 

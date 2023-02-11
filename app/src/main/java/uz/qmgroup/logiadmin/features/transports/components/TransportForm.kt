@@ -1,6 +1,5 @@
 package uz.qmgroup.logiadmin.features.transports.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.features.transports.models.Transport
 import uz.qmgroup.logiadmin.features.transports.models.TransportType
 
@@ -34,8 +35,6 @@ fun TransportForm(
         transportNumber
     ) {
         derivedStateOf {
-            Log.d("LogiAdmin", "form: Tranport driverName $driverFullName")
-
             Transport(
                 transportId = 0,
                 driverName = driverFullName,
@@ -59,7 +58,7 @@ fun TransportForm(
             onValueChange = onDriverFullNameChange,
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Driver full name")
+                Text(stringResource(R.string.Driver_full_name))
             },
             singleLine = true
         )
@@ -69,7 +68,7 @@ fun TransportForm(
             onValueChange = onDriverPhoneChange,
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Driver phone")
+                Text(stringResource(R.string.Driver_phone))
             },
             singleLine = true
         )
@@ -79,7 +78,7 @@ fun TransportForm(
             onValueChange = onTransportNumberChange,
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Transport number")
+                Text(stringResource(R.string.Transport_number))
             },
             singleLine = true
         )

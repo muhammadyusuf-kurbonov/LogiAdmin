@@ -12,9 +12,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.koin.androidx.compose.koinViewModel
+import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.components.EmptyScreenContent
 import uz.qmgroup.logiadmin.components.LoadingScreenContent
 import uz.qmgroup.logiadmin.features.transports.TransportsScreenState
@@ -40,15 +42,18 @@ fun SelectDriverDialog(
     Dialog(
         onDismissRequest = onDismissRequest,
     ) {
-        Card() {
-            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text("Выберите гразовика", style = MaterialTheme.typography.titleSmall)
+        Card {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(stringResource(R.string.Select_transport), style = MaterialTheme.typography.titleSmall)
 
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
-                    placeholder = { Text("Поиск") }
+                    placeholder = { Text(stringResource(id = R.string.Search_transport)) }
                 )
 
                 when (val currentState = state) {

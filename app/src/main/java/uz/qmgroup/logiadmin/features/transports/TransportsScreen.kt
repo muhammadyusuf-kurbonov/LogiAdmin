@@ -66,10 +66,10 @@ fun TransportsScreen(
         portals.fabPortal = {
             AnimatedVisibility(visible = !openCreateForm, enter = fadeIn(), exit = fadeOut()) {
                 ExtendedFloatingActionButton(onClick = { openCreateForm = true }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "New transport")
+                    Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.New_transport))
 
                     Text(
-                        text = "New transport"
+                        text = stringResource(R.string.New_transport)
                     )
                 }
             }
@@ -81,7 +81,7 @@ fun TransportsScreen(
                     TopAppBar(
                         title = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(text = "New transport")
+                                Text(text = stringResource(R.string.New_transport))
                             }
                         },
                         navigationIcon = {
@@ -115,7 +115,7 @@ fun TransportsScreen(
                             leadingIcon = {
                                 Icon(
                                     imageVector = Icons.Default.Search,
-                                    contentDescription = stringResource(R.string.search_a_shipment),
+                                    contentDescription = stringResource(R.string.Search_transport),
                                     modifier = Modifier.padding(16.dp)
                                 )
                             },

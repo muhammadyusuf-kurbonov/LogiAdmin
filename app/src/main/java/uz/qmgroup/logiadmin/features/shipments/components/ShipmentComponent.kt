@@ -32,9 +32,11 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.components.ConfirmButtonWrapper
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
@@ -43,13 +45,14 @@ import uz.qmgroup.logiadmin.features.transports.models.TransportType
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 import java.text.NumberFormat
 
-val statusLabels = mapOf(
-    ShipmentStatus.CANCELLED to "Отменен",
-    ShipmentStatus.CREATED to "Открыт",
-    ShipmentStatus.ASSIGNED to "Назначен",
-    ShipmentStatus.ON_WAY to "В пути",
-    ShipmentStatus.COMPLETED to "Завершён",
-    ShipmentStatus.UNKNOWN to "Неизвестно"
+@Composable
+fun getStatusLabels() = mapOf(
+    ShipmentStatus.CANCELLED to stringResource(R.string.Cancelled),
+    ShipmentStatus.CREATED to stringResource(R.string.Created),
+    ShipmentStatus.ASSIGNED to stringResource(R.string.Assigned),
+    ShipmentStatus.ON_WAY to stringResource(R.string.On_way),
+    ShipmentStatus.COMPLETED to stringResource(R.string.Completed),
+    ShipmentStatus.UNKNOWN to stringResource(R.string.Unknown)
 )
 
 @Composable
@@ -99,7 +102,7 @@ fun ShipmentComponent(
                         )
 
                         Text(
-                            statusLabels[shipment.status] ?: shipment.status.name,
+                            getStatusLabels()[shipment.status] ?: shipment.status.name,
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }
@@ -108,7 +111,7 @@ fun ShipmentComponent(
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("Номер груза", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.Shipment_id), style = MaterialTheme.typography.labelMedium)
                     Text(
                         "${shipment.orderPrefix}${shipment.orderId}",
                         style = MaterialTheme.typography.bodyMedium,
@@ -117,7 +120,7 @@ fun ShipmentComponent(
 
                     Spacer(Modifier.height(8.dp))
 
-                    Text("Company", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.Company), style = MaterialTheme.typography.labelMedium)
                     Text(
                         shipment.company,
                         style = MaterialTheme.typography.bodyMedium,
@@ -131,12 +134,12 @@ fun ShipmentComponent(
 
                             Column {
                                 Text(
-                                    "Номер грузовика",
+                                    stringResource(R.string.Transport_number),
                                     style = MaterialTheme.typography.labelMedium
                                 )
 
                                 Text(
-                                    shipment.transport?.transportNumber ?: "Loading ...",
+                                    shipment.transport?.transportNumber ?: stringResource(id = R.string.Loading),
                                     style = MaterialTheme.typography.bodyMedium,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -150,12 +153,12 @@ fun ShipmentComponent(
                             ) {
                                 Column {
                                     Text(
-                                        "Имя водителя",
+                                        stringResource(R.string.Driver_name),
                                         style = MaterialTheme.typography.labelMedium
                                     )
 
                                     Text(
-                                        shipment.transport?.driverName ?: "Loading ...",
+                                        shipment.transport?.driverName ?: stringResource(id = R.string.Loading),
                                         style = MaterialTheme.typography.bodyMedium,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -166,7 +169,7 @@ fun ShipmentComponent(
 
                     Spacer(Modifier.height(8.dp))
 
-                    Text("Стоимость", style = MaterialTheme.typography.labelMedium)
+                    Text(stringResource(R.string.Cost), style = MaterialTheme.typography.labelMedium)
                     Text(
                         "${NumberFormat.getNumberInstance().format(shipment.price)} сум",
                         style = MaterialTheme.typography.bodyMedium,
@@ -192,18 +195,18 @@ fun ShipmentComponent(
                         Row(modifier = Modifier.align(Alignment.End)) {
                             ConfirmButtonWrapper(
                                 onConfirmed = cancelShipment,
-                                message = "Вы точно хотите отменить этот груз?",
+                                message = stringResource(R.string.Cancel_confirm),
                             ) {
                                 TextButton(
                                     onClick = it.onClick
                                 ) {
-                                    Text("Отменить")
+                                    Text(stringResource(R.string.Cancel))
                                 }
                             }
                             Button(
                                 onClick = requestDriverSelect
                             ) {
-                                Text("Назначить водителя")
+                                Text(stringResource(R.string.Assign_driver))
                             }
                         }
                     }
@@ -228,16 +231,16 @@ fun ShipmentComponent(
                             Row {
                                 ConfirmButtonWrapper(
                                     onConfirmed = cancelShipment,
-                                    message = "Вы точно хотите отменить этот груз?",
+                                    message = stringResource(R.string.Cancel_confirm),
                                 ) {
                                     TextButton(
-                                        onClick = it.onClick,
+                                        onClick = it.onClick
                                     ) {
-                                        Text("Отменить")
+                                        Text(stringResource(R.string.Cancel))
                                     }
                                 }
                                 Button(onClick = startShipment) {
-                                    Text("Отправить")
+                                    Text(stringResource(R.string.Send))
                                 }
                             }
                         }
@@ -263,16 +266,16 @@ fun ShipmentComponent(
                             Row {
                                 ConfirmButtonWrapper(
                                     onConfirmed = cancelShipment,
-                                    message = "Вы точно хотите отменить этот груз?",
+                                    message = stringResource(R.string.Cancel_confirm),
                                 ) {
                                     TextButton(
-                                        onClick = it.onClick,
+                                        onClick = it.onClick
                                     ) {
-                                        Text("Отменить")
+                                        Text(stringResource(R.string.Cancel))
                                     }
                                 }
                                 Button(onClick = completeShipment) {
-                                    Text("Прибытие")
+                                    Text(stringResource(R.string.Complete))
                                 }
                             }
                         }

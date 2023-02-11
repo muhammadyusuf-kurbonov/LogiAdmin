@@ -1,6 +1,5 @@
 package uz.qmgroup.logiadmin.features.transports.new_edit
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,8 +18,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
+import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.features.app.LocalAppPortalsProvider
 import uz.qmgroup.logiadmin.features.transports.components.TransportForm
 import uz.qmgroup.logiadmin.features.transports.models.Transport
@@ -56,7 +57,7 @@ fun NewTransportScreen(
         TextButton(onClick = {
             viewModel.save(transport)
         }) {
-            Text("Сохранить")
+            Text(stringResource(id = R.string.Save))
         }
     }
 
@@ -78,8 +79,6 @@ fun NewTransportScreen(
                         .padding(top = 8.dp),
                     onTransportChange = {
                         transport = it
-
-                        Log.d("LogiAdmin", "edit: Tranport $transport")
                     }
                 )
             }

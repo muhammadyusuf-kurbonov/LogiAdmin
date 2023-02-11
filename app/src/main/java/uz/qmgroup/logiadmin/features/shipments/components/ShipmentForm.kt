@@ -14,8 +14,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.components.NumberTextFieldWrapper
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
@@ -68,7 +70,7 @@ fun ShipmentForm(
             onValueChange = onPickupAddressChange,
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Откуда")
+                Text(stringResource(R.string.From))
             },
             singleLine = true
         )
@@ -78,7 +80,7 @@ fun ShipmentForm(
             onValueChange = onDestinationAddressChange,
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Куда")
+                Text(stringResource(R.string.To))
             },
             singleLine = true
         )
@@ -88,7 +90,7 @@ fun ShipmentForm(
             onValueChange = onCompanyChange,
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text("Company")
+                Text(stringResource(id = R.string.Company))
             },
             singleLine = true
         )
@@ -104,7 +106,7 @@ fun ShipmentForm(
                 onValueChange = it.onValueChanged,
                 modifier = Modifier.fillMaxWidth(),
                 label = {
-                    Text("Стоимость")
+                    Text(stringResource(id = R.string.Cost))
                 },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(

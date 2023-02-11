@@ -76,10 +76,10 @@ fun ShipmentsScreen(
         portals.fabPortal = {
             AnimatedVisibility(visible = !openCreateForm, enter = fadeIn(), exit = fadeOut()) {
                 ExtendedFloatingActionButton(onClick = { openCreateForm = true }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = "New shipment")
+                    Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.New_shipment))
 
                     Text(
-                        text = "New shipment"
+                        text = stringResource(id = R.string.New_shipment)
                     )
                 }
             }
@@ -91,7 +91,7 @@ fun ShipmentsScreen(
                     TopAppBar(
                         title = {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Text(text = "New shipment")
+                                Text(text = stringResource(id = R.string.New_shipment))
                             }
                         },
                         navigationIcon = {
