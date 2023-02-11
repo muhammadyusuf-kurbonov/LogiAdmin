@@ -39,7 +39,7 @@ class TestShipmentDataSource: ShipmentDataSource {
         TODO("Not yet implemented")
     }
 
-    override suspend fun cancelShipment(shipment: Shipment) {
+    override suspend fun setStatus(shipment: Shipment, status: ShipmentStatus) {
         TODO("Not yet implemented")
     }
 

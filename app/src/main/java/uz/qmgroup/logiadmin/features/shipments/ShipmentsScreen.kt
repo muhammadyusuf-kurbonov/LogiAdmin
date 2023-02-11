@@ -159,19 +159,23 @@ fun ShipmentsScreen(
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(currentState.list) {
+                    items(currentState.list) { shipment ->
                         ShipmentComponent(
                             modifier = Modifier.fillMaxWidth(),
-                            shipment = it,
+                            shipment = shipment,
                             isInProgress = false,
                             cancelShipment = {
-                                viewModel.cancel(it)
+                                viewModel.cancel(shipment)
                             },
                             requestDriverSelect = {
-                                openAssignForm = it
+                                openAssignForm = shipment
                             },
-                            startShipment = {},
-                            completeShipment = {},
+                            startShipment = {
+                                viewModel.startShipment(shipment)
+                            },
+                            completeShipment = {
+                               viewModel.completeShipment(shipment)
+                            },
                             callTheDriver = {phone ->
                                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
 

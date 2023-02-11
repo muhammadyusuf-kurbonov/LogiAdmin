@@ -2,6 +2,7 @@ package uz.qmgroup.logiadmin.features.shipments.datasource
 
 import kotlinx.coroutines.flow.Flow
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
+import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 import uz.qmgroup.logiadmin.features.transports.models.Transport
 
 interface ShipmentDataSource {
@@ -9,7 +10,7 @@ interface ShipmentDataSource {
 
     suspend fun addNewShipment(shipment: Shipment)
 
-    suspend fun cancelShipment(shipment: Shipment)
+    suspend fun setStatus(shipment: Shipment, status: ShipmentStatus)
 
     suspend fun assignTransport(shipment: Shipment, transport: Transport)
 }

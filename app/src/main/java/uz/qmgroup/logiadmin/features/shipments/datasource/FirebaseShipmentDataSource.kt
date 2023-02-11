@@ -67,7 +67,7 @@ class FirebaseShipmentDataSource(
         docReference.set(entity.copy(id = docReference.id, orderId = orderId)).await()
     }
 
-    override suspend fun cancelShipment(shipment: Shipment) {
+    override suspend fun setStatus(shipment: Shipment, status: ShipmentStatus) {
         if (shipment.databaseId.isNullOrEmpty())
             throw IllegalArgumentException("Not saved Shipment can not be cancelled")
 
@@ -75,7 +75,7 @@ class FirebaseShipmentDataSource(
         database.collection(COLLECTION_NAME).document(entity.id)
             .update(
                 mapOf(
-                    "status" to ShipmentStatus.CANCELLED,
+                    "status" to status,
                     "updatedAt" to Timestamp.now()
                 )
             ).await()
