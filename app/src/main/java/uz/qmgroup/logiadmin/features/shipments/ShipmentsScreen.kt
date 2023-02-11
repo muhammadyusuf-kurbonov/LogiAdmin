@@ -141,8 +141,9 @@ fun ShipmentsScreen(
     }
 
     val screenState by viewModel.state.collectAsState()
+    val currentState = screenState
 
-    AnimatedContent(targetState = screenState) { currentState ->
+    AnimatedContent(targetState = screenState::class) {
         if (openCreateForm) {
             NewShipmentScreen(
                 modifier = modifier,
