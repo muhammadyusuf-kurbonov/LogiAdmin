@@ -21,7 +21,7 @@ import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        Firebase.crashlytics.setCrashlyticsCollectionEnabled(false)
+        Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
 
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)

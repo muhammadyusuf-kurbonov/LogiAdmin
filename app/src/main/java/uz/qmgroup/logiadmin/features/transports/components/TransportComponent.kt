@@ -48,7 +48,7 @@ fun TransportComponent(modifier: Modifier = Modifier, transport: Transport) {
             Text(
                 text = PhoneNumberUtils.formatNumber(
                     transport.driverPhone,
-                    Locale.getDefault().isO3Country
+                    Locale.getDefault().country
                 ),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
