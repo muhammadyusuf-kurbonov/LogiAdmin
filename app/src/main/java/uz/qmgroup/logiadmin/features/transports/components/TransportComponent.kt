@@ -45,14 +45,16 @@ fun TransportComponent(modifier: Modifier = Modifier, transport: Transport) {
         )
         Column(modifier = Modifier.weight(1f)) {
             Text(text = transport.driverName, style = MaterialTheme.typography.bodyLarge)
-            Text(
-                text = PhoneNumberUtils.formatNumber(
-                    transport.driverPhone,
-                    Locale.getDefault().isO3Country
-                ),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            if (transport.driverPhone.isNotEmpty()) {
+                Text(
+                    text = PhoneNumberUtils.formatNumber(
+                        transport.driverPhone,
+                        Locale.getDefault().country
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
         Icon(
             imageVector = Icons.Default.AllInbox,
