@@ -31,4 +31,6 @@
     <string name="Driver_phone">Телефон водителя</string>
     <string name="Transport_number">Гос. номер транспорта</string>
     <string name="New_transport">Новый транспорт</string>
+    <string name="Select_existing">Выбрать существующего</string>
+    <string name="Create_new">Создать новый</string>
 </resources>

@@ -21,9 +21,9 @@ class TransportEditViewModel(private val dataSource: TransportsDataSource): View
         viewModelScope.launch {
             _state.update { TransportEditScreenState.SavePending }
             try {
-                dataSource.saveTransport(transport)
+                val newObject = dataSource.saveTransport(transport)
 
-                _state.update { TransportEditScreenState.SaveCompleted }
+                _state.update { TransportEditScreenState.SaveCompleted(newObject) }
             } catch (e: Exception) {
                 _state.update { TransportEditScreenState.SaveFailed(e.toString()) }
             }
