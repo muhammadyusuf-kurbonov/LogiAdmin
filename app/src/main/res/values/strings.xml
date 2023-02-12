@@ -30,4 +30,6 @@
     <string name="Driver_phone">Driver phone</string>
     <string name="Transport_number">Transport number</string>
     <string name="New_transport">New transport</string>
+    <string name="Select_existing">Select existing</string>
+    <string name="Create_new">Create new</string>
 </resources>

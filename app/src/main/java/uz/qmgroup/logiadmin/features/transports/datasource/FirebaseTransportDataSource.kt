@@ -33,7 +33,7 @@ class FirebaseTransportDataSource(private val database: FirebaseFirestore) : Tra
         awaitClose { registration.remove() }
     }
 
-    override suspend fun saveTransport(transport: Transport) {
+    override suspend fun saveTransport(transport: Transport): Transport {
         val entity = transport.toFirebaseEntity()
 
         val transportId =
@@ -44,6 +44,9 @@ class FirebaseTransportDataSource(private val database: FirebaseFirestore) : Tra
         val docReference = database.collection(COLLECTION_NAME).document()
 
         docReference.set(entity.copy(id = docReference.id, transportId = transportId)).await()
+
+        return docReference.get().await().toObject(FirebaseTransportEntity::class.java)
+            ?.toDomainModel() ?: throw IllegalStateException()
     }
 
     override suspend fun getByIds(ids: List<Long>): Map<Long, Transport?> {

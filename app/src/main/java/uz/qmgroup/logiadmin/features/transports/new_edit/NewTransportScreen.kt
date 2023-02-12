@@ -85,7 +85,7 @@ fun NewTransportScreen(
         }
 
         is TransportEditScreenState.SaveFailed -> {}
-        TransportEditScreenState.SaveCompleted -> {
+        is TransportEditScreenState.SaveCompleted -> {
             LaunchedEffect(key1 = Unit) {
                 onDismissRequest()
             }

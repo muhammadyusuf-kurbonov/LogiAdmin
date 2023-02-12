@@ -200,11 +200,10 @@ fun ShipmentsScreen(
             SelectDriverDialog(
                 onDismissRequest = {
                     openAssignForm = null
-                },
-                selectDriver = {
-                    viewModel.assignDriver(openAssignForm!!, it)
                 }
-            )
+            ) {
+                viewModel.assignDriver(openAssignForm!!, it)
+            }
         }
     }
 }
