@@ -1,5 +1,6 @@
 package uz.qmgroup.logiadmin.features.shipments.datasource
 
+import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,13 +29,13 @@ class FirebaseShipmentDataSource(
         query: String,
         statuses: List<ShipmentStatus>?
     ): Flow<List<Shipment>> = callbackFlow {
-        var queryReference = database.collection(COLLECTION_NAME).orderBy("status")
+        var queryReference = database.collection(COLLECTION_NAME).limit(100)
 
         if (!statuses.isNullOrEmpty()) {
             queryReference = queryReference.whereIn("status", statuses)
         }
 
-        val registration = queryReference.limit(100)
+        val registration = queryReference
             .addSnapshotListener { snapshot, error ->
                 if (snapshot != null) {
                     val values = snapshot.toObjects<FirebaseShipmentEntity>()
@@ -57,6 +58,7 @@ class FirebaseShipmentDataSource(
                 }
 
                 if (error != null) {
+                    error.printStackTrace()
                     cancel(CancellationException("Firestore error", error))
                 }
             }

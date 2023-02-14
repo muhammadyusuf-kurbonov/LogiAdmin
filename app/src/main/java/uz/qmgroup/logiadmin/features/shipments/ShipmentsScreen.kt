@@ -54,6 +54,7 @@ import uz.qmgroup.logiadmin.features.shipmentfilter.ShipmentFilter
 import uz.qmgroup.logiadmin.features.shipmentfilter.ShipmentFilterSheet
 import uz.qmgroup.logiadmin.features.shipments.components.ShipmentComponent
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
+import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 import uz.qmgroup.logiadmin.features.shipments.new_edit.NewShipmentScreen
 import uz.qmgroup.logiadmin.features.transports.assign_driver.SelectDriverDialog
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
@@ -71,7 +72,15 @@ fun ShipmentsScreen(
         mutableStateOf("")
     }
     var filter by remember {
-        mutableStateOf(ShipmentFilter())
+        mutableStateOf(ShipmentFilter(
+            status = listOf(
+                ShipmentStatus.CREATED,
+                ShipmentStatus.ASSIGNED,
+                ShipmentStatus.ON_WAY,
+                ShipmentStatus.UNKNOWN,
+                ShipmentStatus.COMPLETED
+            )
+        ))
     }
     var openCreateForm by remember {
         mutableStateOf(false)
@@ -186,7 +195,7 @@ fun ShipmentsScreen(
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(currentState.list) { shipment ->
+                    items(currentState.list, key = { it.orderId }) { shipment ->
                         ShipmentComponent(
                             modifier = Modifier.fillMaxWidth(),
                             shipment = shipment,
@@ -221,24 +230,24 @@ fun ShipmentsScreen(
                 EmptyScreenContent(modifier = modifier.fillMaxSize())
             }
         }
+    }
 
-        if (openAssignForm != null) {
-            SelectDriverDialog(
-                onDismissRequest = {
-                    openAssignForm = null
-                }
-            ) {
-                viewModel.assignDriver(openAssignForm!!, it)
+    if (openAssignForm != null) {
+        SelectDriverDialog(
+            onDismissRequest = {
+                openAssignForm = null
             }
+        ) {
+            viewModel.assignDriver(openAssignForm!!, it)
         }
+    }
 
-        if (openFilterForm) {
-            ShipmentFilterSheet(
-                onDismissRequest = { openFilterForm = false },
-                filter = filter,
-                onFilterChange = { filter = it }
-            )
-        }
+    if (openFilterForm) {
+        ShipmentFilterSheet(
+            onDismissRequest = { openFilterForm = false },
+            filter = filter,
+            onFilterChange = { filter = it }
+        )
     }
 }
 
