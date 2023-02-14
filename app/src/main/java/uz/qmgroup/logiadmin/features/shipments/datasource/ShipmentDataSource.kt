@@ -6,7 +6,7 @@ import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 import uz.qmgroup.logiadmin.features.transports.models.Transport
 
 interface ShipmentDataSource {
-    fun getShipments(query: String): Flow<List<Shipment>>
+    fun getShipments(query: String, statuses: List<ShipmentStatus>? = null): Flow<List<Shipment>>
 
     suspend fun addNewShipment(shipment: Shipment)
 

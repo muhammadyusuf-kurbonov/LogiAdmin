@@ -8,7 +8,10 @@ import uz.qmgroup.logiadmin.features.transports.models.Transport
 import uz.qmgroup.logiadmin.features.transports.models.TransportType
 
 class TestShipmentDataSource: ShipmentDataSource {
-    override fun getShipments(query: String): Flow<List<Shipment>> = flow {
+    override fun getShipments(
+        query: String,
+        statuses: List<ShipmentStatus>?
+    ): Flow<List<Shipment>> = flow {
         emit(
             (0 until  15).map {
                 Shipment(

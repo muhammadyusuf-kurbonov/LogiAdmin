@@ -32,4 +32,8 @@
     <string name="New_transport">New transport</string>
     <string name="Select_existing">Select existing</string>
     <string name="Create_new">Create new</string>
+    <string name="Filters">Filters</string>
+    <string name="Collapse">Collapse</string>
+    <string name="Expand">Expand</string>
+    <string name="Status">Status</string>
 </resources>
