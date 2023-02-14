@@ -1,6 +1,5 @@
 package uz.qmgroup.logiadmin.features.shipments.datasource
 
-import android.util.Log
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
