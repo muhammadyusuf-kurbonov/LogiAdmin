@@ -24,8 +24,17 @@ class FirebaseShipmentDataSource(
         const val COLLECTION_NAME = "shipments"
     }
 
-    override fun getShipments(query: String): Flow<List<Shipment>> = callbackFlow {
-        val registration = database.collection(COLLECTION_NAME).orderBy("status").limit(100)
+    override fun getShipments(
+        query: String,
+        statuses: List<ShipmentStatus>?
+    ): Flow<List<Shipment>> = callbackFlow {
+        var queryReference = database.collection(COLLECTION_NAME).limit(100)
+
+        if (!statuses.isNullOrEmpty()) {
+            queryReference = queryReference.whereIn("status", statuses)
+        }
+
+        val registration = queryReference
             .addSnapshotListener { snapshot, error ->
                 if (snapshot != null) {
                     val values = snapshot.toObjects<FirebaseShipmentEntity>()
@@ -48,6 +57,7 @@ class FirebaseShipmentDataSource(
                 }
 
                 if (error != null) {
+                    error.printStackTrace()
                     cancel(CancellationException("Firestore error", error))
                 }
             }

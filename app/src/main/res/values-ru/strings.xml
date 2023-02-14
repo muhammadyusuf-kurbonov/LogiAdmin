@@ -33,4 +33,8 @@
     <string name="New_transport">Новый транспорт</string>
     <string name="Select_existing">Выбрать существующего</string>
     <string name="Create_new">Создать новый</string>
+    <string name="Filters">Фильтры</string>
+    <string name="Collapse">Скрыть</string>
+    <string name="Expand">Раскрыть</string>
+    <string name="Status">Статус</string>
 </resources>

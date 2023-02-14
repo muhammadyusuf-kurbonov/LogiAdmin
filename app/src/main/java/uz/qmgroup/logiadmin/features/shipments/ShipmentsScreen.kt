@@ -18,7 +18,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -42,13 +44,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.components.EmptyScreenContent
 import uz.qmgroup.logiadmin.components.LoadingScreenContent
 import uz.qmgroup.logiadmin.features.app.LocalAppPortalsProvider
+import uz.qmgroup.logiadmin.features.shipmentfilter.ShipmentFilter
+import uz.qmgroup.logiadmin.features.shipmentfilter.ShipmentFilterSheet
 import uz.qmgroup.logiadmin.features.shipments.components.ShipmentComponent
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
+import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 import uz.qmgroup.logiadmin.features.shipments.new_edit.NewShipmentScreen
 import uz.qmgroup.logiadmin.features.transports.assign_driver.SelectDriverDialog
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
@@ -65,7 +71,21 @@ fun ShipmentsScreen(
     var searchQuery by remember {
         mutableStateOf("")
     }
+    var filter by remember {
+        mutableStateOf(ShipmentFilter(
+            status = listOf(
+                ShipmentStatus.CREATED,
+                ShipmentStatus.ASSIGNED,
+                ShipmentStatus.ON_WAY,
+                ShipmentStatus.UNKNOWN,
+                ShipmentStatus.COMPLETED
+            )
+        ))
+    }
     var openCreateForm by remember {
+        mutableStateOf(false)
+    }
+    var openFilterForm by remember {
         mutableStateOf(false)
     }
     var openAssignForm by remember {
@@ -76,7 +96,10 @@ fun ShipmentsScreen(
         portals.fabPortal = {
             AnimatedVisibility(visible = !openCreateForm, enter = fadeIn(), exit = fadeOut()) {
                 ExtendedFloatingActionButton(onClick = { openCreateForm = true }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.New_shipment))
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = stringResource(R.string.New_shipment)
+                    )
 
                     Text(
                         text = stringResource(id = R.string.New_shipment)
@@ -129,6 +152,17 @@ fun ShipmentsScreen(
                                     modifier = Modifier.padding(16.dp)
                                 )
                             },
+                            trailingIcon = {
+                                IconButton(
+                                    onClick = { openFilterForm = true },
+                                    modifier = Modifier.padding(end = 8.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = if (filter.isClear()) Icons.Outlined.FilterAlt else Icons.Default.FilterAlt,
+                                        contentDescription = stringResource(R.string.Filters)
+                                    )
+                                }
+                            }
                         )
                     })
                 }
@@ -136,8 +170,9 @@ fun ShipmentsScreen(
         }
     }
 
-    LaunchedEffect(key1 = viewModel, searchQuery) {
-        viewModel.search(searchQuery)
+    LaunchedEffect(viewModel, searchQuery, filter) {
+        delay(1000)
+        viewModel.search(searchQuery, filter)
     }
 
     val screenState by viewModel.state.collectAsState()
@@ -160,7 +195,7 @@ fun ShipmentsScreen(
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(currentState.list) { shipment ->
+                    items(currentState.list, key = { it.orderId }) { shipment ->
                         ShipmentComponent(
                             modifier = Modifier.fillMaxWidth(),
                             shipment = shipment,
@@ -175,9 +210,9 @@ fun ShipmentsScreen(
                                 viewModel.startShipment(shipment)
                             },
                             completeShipment = {
-                               viewModel.completeShipment(shipment)
+                                viewModel.completeShipment(shipment)
                             },
-                            callTheDriver = {phone ->
+                            callTheDriver = { phone ->
                                 val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
 
                                 context.startActivity(intent)
@@ -195,16 +230,24 @@ fun ShipmentsScreen(
                 EmptyScreenContent(modifier = modifier.fillMaxSize())
             }
         }
+    }
 
-        if (openAssignForm != null) {
-            SelectDriverDialog(
-                onDismissRequest = {
-                    openAssignForm = null
-                }
-            ) {
-                viewModel.assignDriver(openAssignForm!!, it)
+    if (openAssignForm != null) {
+        SelectDriverDialog(
+            onDismissRequest = {
+                openAssignForm = null
             }
+        ) {
+            viewModel.assignDriver(openAssignForm!!, it)
         }
+    }
+
+    if (openFilterForm) {
+        ShipmentFilterSheet(
+            onDismissRequest = { openFilterForm = false },
+            filter = filter,
+            onFilterChange = { filter = it }
+        )
     }
 }
 
