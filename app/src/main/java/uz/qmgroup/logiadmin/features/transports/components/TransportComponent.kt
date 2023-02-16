@@ -33,6 +33,7 @@ val transportColors = mapOf(
     TransportType.REFRIGERATOR_MODE to Color(0xFF00E676),
     TransportType.REFRIGERATOR_NO_MODE to Color(0xFFC2185B)
 )
+
 @Composable
 fun TransportComponent(modifier: Modifier = Modifier, transport: Transport) {
     Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
@@ -47,10 +48,14 @@ fun TransportComponent(modifier: Modifier = Modifier, transport: Transport) {
             Text(text = transport.driverName, style = MaterialTheme.typography.bodyLarge)
             if (transport.driverPhone.isNotEmpty()) {
                 Text(
-                    text = PhoneNumberUtils.formatNumber(
-                        transport.driverPhone,
-                        Locale.getDefault().country
-                    ),
+                    text = try {
+                        PhoneNumberUtils.formatNumber(
+                            transport.driverPhone,
+                            Locale.getDefault().country
+                        )
+                    } catch (exception: NullPointerException) {
+                        transport.driverPhone
+                    },
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -102,6 +107,7 @@ fun TransportRefComponentPreview() {
         )
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun TransportRefNoModeComponentPreview() {
