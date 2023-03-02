@@ -11,7 +11,7 @@ data class FirebaseShipmentEntity(
     val orderId: Long = -1L,
     val note: String = "",
     val orderPrefix: String = "",
-    val company: String = "",
+    val company: String? = null,
     val transportId: Long? = null,
     val status: ShipmentStatus = ShipmentStatus.UNKNOWN,
     val pickoffPlace: String = "",

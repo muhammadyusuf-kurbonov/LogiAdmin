@@ -56,6 +56,7 @@ import uz.qmgroup.logiadmin.features.shipments.components.ShipmentComponent
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
 import uz.qmgroup.logiadmin.features.shipments.new_edit.NewShipmentScreen
+import uz.qmgroup.logiadmin.features.startshipment.StartShipmentDialog
 import uz.qmgroup.logiadmin.features.transports.assign_driver.SelectDriverDialog
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 
@@ -72,25 +73,22 @@ fun ShipmentsScreen(
         mutableStateOf("")
     }
     var filter by remember {
-        mutableStateOf(ShipmentFilter(
-            status = listOf(
-                ShipmentStatus.CREATED,
-                ShipmentStatus.ASSIGNED,
-                ShipmentStatus.ON_WAY,
-                ShipmentStatus.UNKNOWN,
-                ShipmentStatus.COMPLETED
+        mutableStateOf(
+            ShipmentFilter(
+                status = listOf(
+                    ShipmentStatus.CREATED,
+                    ShipmentStatus.ASSIGNED,
+                    ShipmentStatus.ON_WAY,
+                    ShipmentStatus.UNKNOWN,
+                    ShipmentStatus.COMPLETED
+                )
             )
-        ))
+        )
     }
-    var openCreateForm by remember {
-        mutableStateOf(false)
-    }
-    var openFilterForm by remember {
-        mutableStateOf(false)
-    }
-    var openAssignForm by remember {
-        mutableStateOf<Shipment?>(null)
-    }
+    var openCreateForm by remember { mutableStateOf(false) }
+    var openFilterForm by remember { mutableStateOf(false) }
+    var openAssignForm by remember { mutableStateOf<Shipment?>(null) }
+    var openStartForm by remember { mutableStateOf<Shipment?>(null) }
 
     LaunchedEffect(key1 = Unit) {
         portals.fabPortal = {
@@ -207,7 +205,7 @@ fun ShipmentsScreen(
                                 openAssignForm = shipment
                             },
                             startShipment = {
-                                viewModel.startShipment(shipment)
+                                openStartForm = shipment
                             },
                             completeShipment = {
                                 viewModel.completeShipment(shipment)
@@ -247,6 +245,14 @@ fun ShipmentsScreen(
             onDismissRequest = { openFilterForm = false },
             filter = filter,
             onFilterChange = { filter = it }
+        )
+    }
+
+    val activeShipment = openStartForm
+    if (activeShipment != null) {
+        StartShipmentDialog(
+            onDismissRequest = { openStartForm = null },
+            shipment = activeShipment
         )
     }
 }

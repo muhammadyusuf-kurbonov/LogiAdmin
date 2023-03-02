@@ -37,4 +37,5 @@
     <string name="Collapse">Скрыть</string>
     <string name="Expand">Раскрыть</string>
     <string name="Status">Статус</string>
+    <string name="Info_of_receiver_company">Данные компании-получателя</string>
 </resources>

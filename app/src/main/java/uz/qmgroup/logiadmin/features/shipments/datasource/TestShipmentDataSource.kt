@@ -49,4 +49,11 @@ class TestShipmentDataSource: ShipmentDataSource {
     override suspend fun assignTransport(shipment: Shipment, transport: Transport) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun updateShipmentStatusToOnWay(
+        shipment: Shipment,
+        receiverCompanyName: String
+    ) {
+        TODO("Not yet implemented")
+    }
 }

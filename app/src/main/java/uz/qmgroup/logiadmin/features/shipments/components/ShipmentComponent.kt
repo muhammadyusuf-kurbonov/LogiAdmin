@@ -118,14 +118,16 @@ fun ShipmentComponent(
                         fontWeight = FontWeight.Bold
                     )
 
-                    Spacer(Modifier.height(8.dp))
+                    if (!shipment.company.isNullOrEmpty()) {
+                        Spacer(Modifier.height(8.dp))
 
-                    Text(stringResource(R.string.Company), style = MaterialTheme.typography.labelMedium)
-                    Text(
-                        shipment.company,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold
-                    )
+                        Text(stringResource(R.string.Company), style = MaterialTheme.typography.labelMedium)
+                        Text(
+                            shipment.company,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
 
 
                     AnimatedVisibility(shipment.transport != null) {

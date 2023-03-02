@@ -36,4 +36,5 @@
     <string name="Collapse">Collapse</string>
     <string name="Expand">Expand</string>
     <string name="Status">Status</string>
+    <string name="Info_of_receiver_company">Info of receiver company</string>
 </resources>
