@@ -78,6 +78,9 @@ class FirebaseShipmentDataSource(
     }
 
     override suspend fun setStatus(shipment: Shipment, status: ShipmentStatus) {
+        if (status == ShipmentStatus.ON_WAY)
+            throw IllegalStateException("Use `updateShipmentStatusToOnWay` method to start shipment. It requires company to be set")
+
         if (shipment.databaseId.isNullOrEmpty())
             throw IllegalArgumentException("Not saved Shipment can not be cancelled")
 
@@ -105,6 +108,24 @@ class FirebaseShipmentDataSource(
                     "status" to ShipmentStatus.ASSIGNED,
                     "updatedAt" to Timestamp.now(),
                     "transportId" to transport.transportId,
+                )
+            ).await()
+    }
+
+    override suspend fun updateShipmentStatusToOnWay(
+        shipment: Shipment,
+        receiverCompanyName: String
+    ) {
+        if (shipment.databaseId.isNullOrEmpty())
+            throw IllegalArgumentException("Not saved Shipment can not be updated")
+
+        val entity = shipment.toFirebaseEntity()
+        database.collection(COLLECTION_NAME).document(entity.id)
+            .update(
+                mapOf(
+                    "status" to ShipmentStatus.ON_WAY,
+                    "updatedAt" to Timestamp.now(),
+                    "company" to receiverCompanyName
                 )
             ).await()
     }

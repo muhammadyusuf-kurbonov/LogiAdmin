@@ -7,7 +7,7 @@ data class Shipment(
     val orderId: Long,
     val note: String,
     val orderPrefix: String,
-    val company: String,
+    val company: String? = null,
     val transportId: Long?,
     val transport: Transport?,
     val status: ShipmentStatus,

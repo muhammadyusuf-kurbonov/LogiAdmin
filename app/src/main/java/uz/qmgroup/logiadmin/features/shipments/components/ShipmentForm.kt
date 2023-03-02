@@ -30,14 +30,12 @@ fun ShipmentForm(
 ) {
     val (pickupAddress, onPickupAddressChange) = remember { mutableStateOf("") }
     val (destinationAddress, onDestinationAddressChange) = remember { mutableStateOf("") }
-    val (company, onCompanyChange) = remember { mutableStateOf("") }
     val (price, onPriceChange) = remember { mutableStateOf(0.0) }
 
     val shipment by remember(
         pickupAddress,
         destinationAddress,
         price,
-        company
     ) {
         derivedStateOf {
             Shipment(
@@ -51,7 +49,7 @@ fun ShipmentForm(
                 price = price,
                 author = "Diyorbek",
                 transport = null,
-                company = company,
+                company = null,
                 databaseId = ""
             )
         }
@@ -81,16 +79,6 @@ fun ShipmentForm(
             modifier = Modifier.fillMaxWidth(),
             label = {
                 Text(stringResource(R.string.To))
-            },
-            singleLine = true
-        )
-
-        OutlinedTextField(
-            value = company,
-            onValueChange = onCompanyChange,
-            modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text(stringResource(id = R.string.Company))
             },
             singleLine = true
         )

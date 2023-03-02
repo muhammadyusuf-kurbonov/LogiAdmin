@@ -13,4 +13,6 @@ interface ShipmentDataSource {
     suspend fun setStatus(shipment: Shipment, status: ShipmentStatus)
 
     suspend fun assignTransport(shipment: Shipment, transport: Transport)
+
+    suspend fun updateShipmentStatusToOnWay(shipment: Shipment, receiverCompanyName: String)
 }
