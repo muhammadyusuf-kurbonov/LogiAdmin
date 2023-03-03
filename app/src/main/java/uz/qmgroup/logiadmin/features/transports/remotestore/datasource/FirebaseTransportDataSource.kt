@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.transports.datasource
+package uz.qmgroup.logiadmin.features.transports.remotestore.datasource
 
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore

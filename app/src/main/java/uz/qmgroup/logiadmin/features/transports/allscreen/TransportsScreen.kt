@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.transports
+package uz.qmgroup.logiadmin.features.transports.allscreen
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility

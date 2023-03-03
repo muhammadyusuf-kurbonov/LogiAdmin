@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.transports
+package uz.qmgroup.logiadmin.features.transports.allscreen
 
 import uz.qmgroup.logiadmin.features.transports.models.Transport
 

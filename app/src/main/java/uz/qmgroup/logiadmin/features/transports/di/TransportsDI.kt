@@ -6,9 +6,9 @@ import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import uz.qmgroup.logiadmin.features.transports.TransportsViewModel
-import uz.qmgroup.logiadmin.features.transports.datasource.FirebaseTransportDataSource
-import uz.qmgroup.logiadmin.features.transports.datasource.TransportsDataSource
+import uz.qmgroup.logiadmin.features.transports.allscreen.TransportsViewModel
+import uz.qmgroup.logiadmin.features.transports.remotestore.datasource.FirebaseTransportDataSource
+import uz.qmgroup.logiadmin.features.transports.remotestore.datasource.TransportsDataSource
 import uz.qmgroup.logiadmin.features.transports.new_edit.TransportEditViewModel
 
 val transportsDIModule = module {
