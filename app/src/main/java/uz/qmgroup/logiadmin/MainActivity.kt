@@ -7,14 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import uz.qmgroup.logiadmin.features.app.AppScreen
 import uz.qmgroup.logiadmin.features.app.di.appDIModule
+import uz.qmgroup.logiadmin.features.repositories.AppRepository
+import uz.qmgroup.logiadmin.features.repositories.repositoriesDI
 import uz.qmgroup.logiadmin.features.shipments.di.shipmentDIModule
 import uz.qmgroup.logiadmin.features.startshipment.di.startShipmentDIModule
 import uz.qmgroup.logiadmin.features.transports.di.transportsDIModule
@@ -34,7 +39,19 @@ class MainActivity : ComponentActivity() {
         startKoin {
             androidContext(applicationContext)
 
-            modules(shipmentDIModule, appDIModule, transportsDIModule, startShipmentDIModule)
+            modules(
+                shipmentDIModule,
+                appDIModule,
+                transportsDIModule,
+                startShipmentDIModule,
+                repositoriesDI
+            )
+        }
+
+        val repository by inject<AppRepository>()
+
+        lifecycleScope.launch {
+            repository.initializeAndSynchronize()
         }
 
         setContent {
