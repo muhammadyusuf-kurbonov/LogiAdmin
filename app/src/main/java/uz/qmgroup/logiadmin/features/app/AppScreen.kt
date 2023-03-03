@@ -96,7 +96,7 @@ fun AppScreen(
                     // be displayed out of bounds.
                     SizeTransform(clip = false)
                 )
-            }
+            },
         ) {
             CompositionLocalProvider(
                 LocalAppPortalsProvider provides portals

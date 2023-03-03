@@ -66,7 +66,10 @@ fun TransportsScreen(
         portals.fabPortal = {
             AnimatedVisibility(visible = !openCreateForm, enter = fadeIn(), exit = fadeOut()) {
                 ExtendedFloatingActionButton(onClick = { openCreateForm = true }) {
-                    Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.New_transport))
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = stringResource(R.string.New_transport)
+                    )
 
                     Text(
                         text = stringResource(R.string.New_transport)

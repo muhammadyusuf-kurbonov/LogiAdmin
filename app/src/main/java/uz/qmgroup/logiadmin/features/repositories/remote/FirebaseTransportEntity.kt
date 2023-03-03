@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.transports.remotestore.datasource
+package uz.qmgroup.logiadmin.features.repositories.remote
 
 import androidx.annotation.Keep
 import com.google.firebase.Timestamp

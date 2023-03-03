@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.app.database
+package uz.qmgroup.logiadmin.features.repositories.local
 
 import android.content.Context
 import androidx.room.Database
@@ -8,12 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import uz.qmgroup.logiadmin.features.transports.localstore.LocalTransportEntity
-import uz.qmgroup.logiadmin.features.transports.localstore.LocalTransportsDao
-import uz.qmgroup.logiadmin.features.transports.localstore.toDomain
-import uz.qmgroup.logiadmin.features.transports.localstore.toLocalEntity
+import uz.qmgroup.logiadmin.features.transports.TransportsDataSource
 import uz.qmgroup.logiadmin.features.transports.models.Transport
-import uz.qmgroup.logiadmin.features.transports.remotestore.datasource.TransportsDataSource
 
 
 @Database(
@@ -52,7 +48,20 @@ abstract class AppDatabase : RoomDatabase(), TransportsDataSource {
         }
 
     override suspend fun getByIds(ids: List<Long>): Map<Long, Transport?> =
-        transportsDao.getTransports(ids)
-            .map { transports -> transports.toDomain() }
-            .associateByTo(hashMapOf(), Transport::transportId)
+        withContext(Dispatchers.IO) {
+            transportsDao.getTransports(ids)
+                .map { transports -> transports.toDomain() }
+                .associateByTo(hashMapOf(), Transport::transportId)
+        }
+
+    override suspend fun updateTransport(transport: Transport): Transport =
+        withContext(Dispatchers.IO) {
+            transportsDao.update(transport.toLocalEntity()).toDomain()
+        }
+
+    override suspend fun deleteTransport(transport: Transport): Transport =
+        withContext(Dispatchers.IO) {
+            transportsDao.deleteTransport(transport.toLocalEntity())
+            transport
+        }
 }

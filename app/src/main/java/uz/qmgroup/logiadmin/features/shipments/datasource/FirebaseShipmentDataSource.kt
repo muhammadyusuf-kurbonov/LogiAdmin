@@ -13,7 +13,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import uz.qmgroup.logiadmin.features.shipments.models.Shipment
 import uz.qmgroup.logiadmin.features.shipments.models.ShipmentStatus
-import uz.qmgroup.logiadmin.features.transports.remotestore.datasource.TransportsDataSource
+import uz.qmgroup.logiadmin.features.transports.TransportsDataSource
 import uz.qmgroup.logiadmin.features.transports.models.Transport
 
 class FirebaseShipmentDataSource(

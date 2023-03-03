@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.transports.localstore
+package uz.qmgroup.logiadmin.features.repositories.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
