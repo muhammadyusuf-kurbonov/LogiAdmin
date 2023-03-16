@@ -52,7 +52,7 @@ fun TransportComponent(modifier: Modifier = Modifier, transport: Transport) {
                         PhoneNumberUtils.formatNumber(
                             transport.driverPhone,
                             Locale.getDefault().country
-                        )
+                        ) ?: transport.driverPhone
                     } catch (exception: NullPointerException) {
                         transport.driverPhone
                     },
