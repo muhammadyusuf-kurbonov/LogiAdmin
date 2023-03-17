@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.FilterAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,15 +43,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import org.koin.androidx.compose.koinViewModel
 import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.components.EmptyScreenContent
 import uz.qmgroup.logiadmin.components.LoadingScreenContent
 import uz.qmgroup.logiadmin.features.app.LocalAppPortalsProvider
+import uz.qmgroup.logiadmin.features.profile.ProfileDialog
 import uz.qmgroup.logiadmin.features.shipmentfilter.ShipmentFilter
 import uz.qmgroup.logiadmin.features.shipmentfilter.ShipmentFilterSheet
 import uz.qmgroup.logiadmin.features.shipments.components.ShipmentComponent
@@ -89,6 +96,7 @@ fun ShipmentsScreen(
     var openFilterForm by remember { mutableStateOf(false) }
     var openAssignForm by remember { mutableStateOf<Shipment?>(null) }
     var openStartForm by remember { mutableStateOf<Shipment?>(null) }
+    var openProfile by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = Unit) {
         portals.fabPortal = {
@@ -126,42 +134,59 @@ fun ShipmentsScreen(
                     )
                 } else {
                     TopAppBar(title = {
-                        TextField(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(end = 16.dp),
-                            value = searchQuery,
-                            onValueChange = { newQuery -> searchQuery = newQuery },
-                            placeholder = {
-                                Text(text = stringResource(R.string.search_a_shipment))
-                            },
-                            shape = RoundedCornerShape(99.dp),
-                            colors = TextFieldDefaults.textFieldColors(
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                disabledIndicatorColor = Color.Transparent,
-                                errorIndicatorColor = Color.Transparent,
-                            ),
-                            textStyle = MaterialTheme.typography.bodyLarge,
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = stringResource(R.string.search_a_shipment),
-                                    modifier = Modifier.padding(16.dp)
-                                )
-                            },
-                            trailingIcon = {
-                                IconButton(
-                                    onClick = { openFilterForm = true },
-                                    modifier = Modifier.padding(end = 8.dp)
-                                ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(end = 16.dp)
+                        ) {
+                            TextField(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(end = 8.dp),
+                                value = searchQuery,
+                                onValueChange = { newQuery -> searchQuery = newQuery },
+                                placeholder = {
+                                    Text(text = stringResource(R.string.search_a_shipment))
+                                },
+                                shape = RoundedCornerShape(99.dp),
+                                colors = TextFieldDefaults.textFieldColors(
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    disabledIndicatorColor = Color.Transparent,
+                                    errorIndicatorColor = Color.Transparent,
+                                ),
+                                textStyle = MaterialTheme.typography.bodyLarge,
+                                leadingIcon = {
                                     Icon(
-                                        imageVector = if (filter.isClear()) Icons.Outlined.FilterAlt else Icons.Default.FilterAlt,
-                                        contentDescription = stringResource(R.string.Filters)
+                                        imageVector = Icons.Default.Search,
+                                        contentDescription = stringResource(R.string.search_a_shipment),
+                                        modifier = Modifier.padding(16.dp)
                                     )
+                                },
+                                trailingIcon = {
+                                    IconButton(
+                                        onClick = { openFilterForm = true },
+                                        modifier = Modifier.padding(end = 8.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = if (filter.isClear()) Icons.Outlined.FilterAlt else Icons.Default.FilterAlt,
+                                            contentDescription = stringResource(R.string.Filters)
+                                        )
+                                    }
                                 }
+                            )
+
+                            FilledTonalIconButton(
+                                onClick = { openProfile = true },
+                                modifier = Modifier.size(48.dp)
+                            ) {
+                                AsyncImage(
+                                    model = Firebase.auth.currentUser?.photoUrl,
+                                    fallback = painterResource(id = R.drawable.outline_account_circle_24),
+                                    placeholder = painterResource(id = R.drawable.outline_account_circle_24),
+                                    contentDescription = null,
+                                )
                             }
-                        )
+                        }
                     })
                 }
             }
@@ -238,6 +263,10 @@ fun ShipmentsScreen(
         ) {
             viewModel.assignDriver(openAssignForm!!, it)
         }
+    }
+
+    if (openProfile) {
+        ProfileDialog(onDismissRequested = { openProfile = false })
     }
 
     if (openFilterForm) {
