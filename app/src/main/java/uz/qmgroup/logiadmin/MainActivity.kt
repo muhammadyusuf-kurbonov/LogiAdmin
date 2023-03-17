@@ -1,6 +1,7 @@
 package uz.qmgroup.logiadmin
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,14 +46,22 @@ class MainActivity : ComponentActivity() {
             val launcher = registerForActivityResult(
                 FirebaseAuthUIActivityResultContract()
             ) {
-
+                if (it.resultCode != RESULT_OK) {
+                    Log.e("LogiAdmin Auth", "Auth failed due ${it.idpResponse?.error}")
+                    it.idpResponse?.error?.let { firebaseUiException ->
+                        Firebase.crashlytics.recordException(
+                            firebaseUiException
+                        )
+                    }
+                }
             }
 
             val actionCodeSettings = ActionCodeSettings.newBuilder()
                 .setAndroidPackageName(
                     BuildConfig.APPLICATION_ID,
                     true,
-                    null)
+                    null
+                )
                 .setHandleCodeInApp(true) // This must be set to true
                 .setUrl("https://ligiadmin.page.link") // This URL needs to be whitelisted
                 .build()
