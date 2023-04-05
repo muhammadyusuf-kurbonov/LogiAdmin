@@ -193,7 +193,7 @@ fun ShipmentsScreen(
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(currentState.list, key = { it.orderId }) { shipment ->
+                    items(currentState.list, key = { it.databaseId ?: it }) { shipment ->
                         ShipmentComponent(
                             modifier = Modifier.fillMaxWidth(),
                             shipment = shipment,
