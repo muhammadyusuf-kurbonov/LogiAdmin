@@ -26,8 +26,8 @@ import org.koin.androidx.compose.koinViewModel
 import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.components.EmptyScreenContent
 import uz.qmgroup.logiadmin.components.LoadingScreenContent
-import uz.qmgroup.logiadmin.features.transports.TransportsScreenState
-import uz.qmgroup.logiadmin.features.transports.TransportsViewModel
+import uz.qmgroup.logiadmin.features.transports.allscreen.TransportsScreenState
+import uz.qmgroup.logiadmin.features.transports.allscreen.TransportsViewModel
 import uz.qmgroup.logiadmin.features.transports.components.TransportComponent
 import uz.qmgroup.logiadmin.features.transports.components.TransportForm
 import uz.qmgroup.logiadmin.features.transports.models.Transport

@@ -1,4 +1,4 @@
-package uz.qmgroup.logiadmin.features.transports
+package uz.qmgroup.logiadmin.features.transports.allscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import uz.qmgroup.logiadmin.features.transports.datasource.TransportsDataSource
+import uz.qmgroup.logiadmin.features.transports.TransportsDataSource
 
 class TransportsViewModel(private val dataSource: TransportsDataSource): ViewModel() {
     private val _state = MutableStateFlow<TransportsScreenState>(TransportsScreenState.Loading)

@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import org.koin.androidx.compose.koinViewModel
 import uz.qmgroup.logiadmin.R
 import uz.qmgroup.logiadmin.features.shipments.ShipmentsScreen
-import uz.qmgroup.logiadmin.features.transports.TransportsScreen
+import uz.qmgroup.logiadmin.features.transports.allscreen.TransportsScreen
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
@@ -96,7 +96,7 @@ fun AppScreen(
                     // be displayed out of bounds.
                     SizeTransform(clip = false)
                 )
-            }
+            },
         ) {
             CompositionLocalProvider(
                 LocalAppPortalsProvider provides portals
