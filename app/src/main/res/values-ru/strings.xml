@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">LogiAdmin</string>
     <string name="search_a_shipment">Поиск груза</string>
     <string name="Shipments">Грузы</string>
     <string name="Transports">Транспорт</string>

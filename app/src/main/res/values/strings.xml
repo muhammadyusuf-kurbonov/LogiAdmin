@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LogiAdmin</string>
+    <string name="app_name" translatable="false">LogiAdmin</string>
     <string name="search_a_shipment">Search a shipment</string>
     <string name="Shipments">Shipments</string>
     <string name="Transports">Transports</string>
