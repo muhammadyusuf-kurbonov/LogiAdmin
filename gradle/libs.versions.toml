@@ -1,0 +1,33 @@
+[versions]
+activity-compose = "1.7.2"
+core-ktx = "1.10.1"
+firebase-analytics-ktx = "21.3.0"
+firebase-crashlytics-gradle = "2.9.5"
+firebase-crashlytics-ktx = "18.3.7"
+firebase-firestore-ktx = "24.6.1"
+google-services = "4.3.15"
+gradle = "8.2.0-alpha15"
+koin = "3.4.2"
+lifecycle-runtime-ktx = "2.6.1"
+room = "2.5.1"
+
+[libraries]
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics-ktx" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
+firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics-ktx" }
+firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version.ref = "firebase-firestore-ktx" }
+google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
+[plugins]
+
+
+[bundles]
+

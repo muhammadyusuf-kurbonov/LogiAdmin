@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 rootProject.name = "LogiAdmin"
 include ':app'
 include ':libtd'
+include ':telegram-integration'

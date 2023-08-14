@@ -1,5 +1,6 @@
 package uz.qmgroup.logiadmin.features.shipments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
@@ -60,7 +61,7 @@ import uz.qmgroup.logiadmin.features.startshipment.StartShipmentDialog
 import uz.qmgroup.logiadmin.features.transports.assign_driver.SelectDriverDialog
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShipmentsScreen(
     modifier: Modifier = Modifier,
@@ -107,7 +108,7 @@ fun ShipmentsScreen(
         }
 
         portals.titleBarPortal = {
-            AnimatedContent(openCreateForm) {
+            AnimatedContent(openCreateForm, label = "Titlebar") {
                 if (it) {
                     TopAppBar(
                         title = {
@@ -174,9 +175,8 @@ fun ShipmentsScreen(
     }
 
     val screenState by viewModel.state.collectAsState()
-    val currentState = screenState
 
-    AnimatedContent(targetState = screenState::class) {
+    AnimatedContent(targetState = screenState, label = "Main screen transition") {
         if (openCreateForm) {
             NewShipmentScreen(
                 modifier = modifier,
@@ -186,14 +186,14 @@ fun ShipmentsScreen(
             return@AnimatedContent
         }
 
-        when (currentState) {
+        when (it) {
             is ShipmentScreenState.DataFetched -> {
                 LazyColumn(
                     modifier = modifier
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(currentState.list, key = { it.databaseId ?: it }) { shipment ->
+                    items(it.list, key = { shipment -> shipment.databaseId ?: shipment }) { shipment ->
                         ShipmentComponent(
                             modifier = Modifier.fillMaxWidth(),
                             shipment = shipment,
