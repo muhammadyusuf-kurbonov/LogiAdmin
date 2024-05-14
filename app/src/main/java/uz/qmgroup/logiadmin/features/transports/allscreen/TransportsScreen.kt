@@ -46,7 +46,7 @@ import uz.qmgroup.logiadmin.features.app.LocalAppPortalsProvider
 import uz.qmgroup.logiadmin.features.transports.components.TransportComponent
 import uz.qmgroup.logiadmin.features.transports.new_edit.NewTransportScreen
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransportsScreen(
     modifier: Modifier = Modifier,

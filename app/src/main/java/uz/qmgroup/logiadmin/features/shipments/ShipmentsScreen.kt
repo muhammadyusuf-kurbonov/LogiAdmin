@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
@@ -60,7 +59,7 @@ import uz.qmgroup.logiadmin.features.startshipment.StartShipmentDialog
 import uz.qmgroup.logiadmin.features.transports.assign_driver.SelectDriverDialog
 import uz.qmgroup.logiadmin.ui.theme.LogiAdminTheme
 
-@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShipmentsScreen(
     modifier: Modifier = Modifier,
@@ -107,7 +106,7 @@ fun ShipmentsScreen(
         }
 
         portals.titleBarPortal = {
-            AnimatedContent(openCreateForm) {
+            AnimatedContent(openCreateForm, label = "Title bar transition") {
                 if (it) {
                     TopAppBar(
                         title = {
@@ -174,9 +173,8 @@ fun ShipmentsScreen(
     }
 
     val screenState by viewModel.state.collectAsState()
-    val currentState = screenState
 
-    AnimatedContent(targetState = screenState::class) {
+    AnimatedContent(targetState = screenState, label = "Shipments screen transition") { state ->
         if (openCreateForm) {
             NewShipmentScreen(
                 modifier = modifier,
@@ -186,14 +184,14 @@ fun ShipmentsScreen(
             return@AnimatedContent
         }
 
-        when (currentState) {
+        when (state) {
             is ShipmentScreenState.DataFetched -> {
                 LazyColumn(
                     modifier = modifier
                         .padding(horizontal = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    items(currentState.list, key = { it.databaseId ?: it }) { shipment ->
+                    items(state.list, key = { it.databaseId ?: it }) { shipment ->
                         ShipmentComponent(
                             modifier = Modifier.fillMaxWidth(),
                             shipment = shipment,

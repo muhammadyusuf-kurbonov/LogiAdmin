@@ -5,6 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.animation.with
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -84,12 +85,12 @@ fun AppScreen(
                 if (targetState > initialState) {
                     // If the target number is larger, it slides up and fades in
                     // while the initial (smaller) number slides up and fades out.
-                    slideInHorizontally { height -> height } with
+                    slideInHorizontally { height -> height } togetherWith
                             slideOutHorizontally { height -> -height }
                 } else {
                     // If the target number is smaller, it slides down and fades in
                     // while the initial number slides down and fades out.
-                    slideInHorizontally { height -> -height } with
+                    slideInHorizontally { height -> -height } togetherWith
                             slideOutHorizontally { height -> height }
                 }.using(
                     // Disable clipping since the faded slide-in/out should
@@ -97,6 +98,7 @@ fun AppScreen(
                     SizeTransform(clip = false)
                 )
             },
+            label = "Main screens transitions"
         ) {
             CompositionLocalProvider(
                 LocalAppPortalsProvider provides portals

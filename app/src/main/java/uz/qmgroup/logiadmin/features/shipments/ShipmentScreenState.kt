@@ -8,4 +8,9 @@ sealed class ShipmentScreenState {
     data class DataFetched(val list: List<Shipment>): ShipmentScreenState()
 
     object NoData: ShipmentScreenState()
+
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false;
+        return this::class == other::class;
+    }
 }
